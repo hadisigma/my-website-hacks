@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hadis Codingwelt</title>
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #1d1d1f;
+            --accent-color: #0071e3;
+            --card-bg: #f5f5f7;
+            --code-bg: #f6f8fa;
+            --border-color: #d2d2d7;
+            --header-bg: rgba(255, 255, 255, 0.8);
+        }
+
+        .dark-mode {
+            --bg-color: #1d1d1f;
+            --text-color: #f5f5f7;
+            --accent-color: #2997ff;
+            --card-bg: #2d2d2f;
+            --code-bg: #292a2d;
+            --border-color: #494949;
+            --header-bg: rgba(29, 29, 31, 0.8);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.5;
+        }
+
+        header {
+            background-color: var(--header-bg);
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .nav-items {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-items a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .nav-items a:hover {
+            color: var(--accent-color);
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--text-color);
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 4rem 0;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(90deg, var(--accent-color), #6d4aff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            max-width: 800px;
+            margin: 0 auto;
+            opacity: 0.8;
+        }
+
+        .code-section {
+            margin: 3rem 0;
+        }
+
+        .code-card {
+            background-color: var(--card-bg);
+            border-radius: 1rem;
+            margin-bottom: 2rem;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .code-header {
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .code-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .code-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .code-actions button {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .code-actions button:hover {
+            opacity: 0.9;
+        }
+
+        .code-container {
+            padding: 1rem;
+            background-color: var(--code-bg);
+            overflow-x: auto;
+        }
+
+        pre {
+            margin: 0;
+            white-space: pre-wrap;
+            font-family: 'SF Mono', 'Menlo', 'Monaco', 'Courier New', monospace;
+        }
+
+        .code-editor {
+            margin-top: 3rem;
+            background-color: var(--card-bg);
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .code-editor h2 {
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            border: 1px solid var(--border-color);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'SF Mono', 'Menlo', 'Monaco', 'Courier New', monospace;
+        }
+
+        .form-group textarea {
+            min-height: 200px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .submit-btn:hover {
+            opacity: 0.9;
+        }
+
+        footer {
+            background-color: var(--card-bg);
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            color: var(--text-color);
+            font-size: 1.5rem;
+            text-decoration: none;
+        }
+
+        .social-links a:hover {
+            color: var(--accent-color);
+        }
+
+        /* Syntax highlighting */
+        .keyword { color: #cf222e; }
+        .string { color: #0a3069; }
+        .comment { color: #6e7781; }
+        .number { color: #0550ae; }
+        .function { color: #8250df; }
+        .operator { color: #6e7781; }
+        .variable { color: #953800; }
+
+        .dark-mode .keyword { color: #ff7b72; }
+        .dark-mode .string { color: #a5d6ff; }
+        .dark-mode .comment { color: #8b949e; }
+        .dark-mode .number { color: #79c0ff; }
+        .dark-mode .function { color: #d2a8ff; }
+        .dark-mode .operator { color: #8b949e; }
+        .dark-mode .variable { color: #ffa657; }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .nav-items {
+                gap: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .nav-items {
+                margin-top: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">Hadis Codingwelt</div>
+            <div class="nav-items">
+                <a href="#">Home</a>
+                <a href="#code-examples">Code Beispiele</a>
+                <a href="#add-code">Code hinzufügen</a>
+                <a href="#" id="discord-link">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 127.14 96.36" fill="currentColor">
+                        <path d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83A97.68,97.68,0,0,0,49,6.83,72.37,72.37,0,0,0,45.64,0,105.89,105.89,0,0,0,19.39,8.09C2.79,32.65-1.71,56.6.54,80.21h0A105.73,105.73,0,0,0,32.71,96.36,77.7,77.7,0,0,0,39.6,85.25a68.42,68.42,0,0,1-10.85-5.18c.91-.66,1.8-1.34,2.66-2a75.57,75.57,0,0,0,64.32,0c.87.71,1.76,1.39,2.66,2a68.68,68.68,0,0,1-10.87,5.19,77,77,0,0,0,6.89,11.1A105.25,105.25,0,0,0,126.6,80.22h0C129.24,52.84,122.09,29.11,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53s5-12.74,11.43-12.74S54,46,53.89,53,48.84,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.25,60,73.25,53s5-12.74,11.44-12.74S96.23,46,96.12,53,91.08,65.69,84.69,65.69Z"/>
+                    </svg>
+                </a>
+                <button class="theme-toggle" id="theme-toggle">
+                    <svg id="light-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                    <svg id="dark-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <section class="hero">
+            <h1>Asalamu Aleykum Akhi/Ikhti</h1>
+            <p>Diese Website wurde von Hadi Erstellt für Hacks/Codes erstellt Viel Spass Und teile gerne deine Hacks/Codes - JOIN DC</p>
+        </section>
+
+        <section class="code-section" id="code-examples">
+            <h2>Beliebte Code-Beispiele</h2>
+            
+            <div class="code-card">
+                <div class="code-header">
+                    <div class="code-title">Einfache JavaScript-Animation</div>
+                    <div class="code-actions">
+                        <button class="copy-btn" data-code-id="code1">Kopieren</button>
+                    </div>
+                </div>
+                <div class="code-container">
+                    <pre id="code1"><span class="comment">// Einfache Animation mit JavaScript</span>
+<span class="keyword">const</span> <span class="variable">element</span> = <span class="function">document</span>.<span class="function">querySelector</span>(<span class="string">'.animated-element'</span>);
+
+<span class="keyword">function</span> <span class="function">animate</span>() {
+  <span class="keyword">let</span> <span class="variable">position</span> = <span class="number">0</span>;
+  <span class="keyword">const</span> <span class="variable">interval</span> = <span class="function">setInterval</span>(() => {
+    <span class="variable">position</span> <span class="operator">+=</span> <span class="number">1</span>;
+    <span class="variable">element</span>.style.transform = <span class="string">`translateX(${position}px)`</span>;
+    
+    <span class="keyword">if</span> (<span class="variable">position</span> > <span class="number">300</span>) {
+      <span class="function">clearInterval</span>(<span class="variable">interval</span>);
+    }
+  }, <span class="number">10</span>);
+}
+
+<span class="function">animate</span>();</pre>
+                </div>
+            </div>
+
+            <div class="code-card">
+                <div class="code-header">
+                    <div class="code-title">Responsives CSS Grid Layout</div>
+                    <div class="code-actions">
+                        <button class="copy-btn" data-code-id="code2">Kopieren</button>
+                    </div>
+                </div>
+                <div class="code-container">
+                    <pre id="code2"><span class="comment">/* Responsives Grid-Layout für moderne Websites */</span>
+<span class="keyword">.grid-container</span> {
+  <span class="variable">display</span>: <span class="string">grid</span>;
+  <span class="variable">grid-template-columns</span>: <span class="function">repeat</span>(<span class="function">auto-fit</span>, <span class="function">minmax</span>(<span class="number">300px</span>, <span class="number">1fr</span>));
+  <span class="variable">gap</span>: <span class="number">20px</span>;
+  <span class="variable">padding</span>: <span class="number">20px</span>;
+}
+
+<span class="keyword">.grid-item</span> {
+  <span class="variable">background-color</span>: <span class="string">#f8f9fa</span>;
+  <span class="variable">border-radius</span>: <span class="number">8px</span>;
+  <span class="variable">padding</span>: <span class="number">20px</span>;
+  <span class="variable">box-shadow</span>: <span class="number">0</span> <span class="number">2px</span> <span class="number">4px</span> <span class="function">rgba</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0.1</span>);
+  <span class="variable">transition</span>: <span class="string">transform 0.3s</span>;
+}
+
+<span class="keyword">.grid-item:hover</span> {
+  <span class="variable">transform</span>: <span class="function">translateY</span>(<span class="number">-5px</span>);
+}</pre>
+                </div>
+            </div>
+
+            <div class="code-card">
+                <div class="code-header">
+                    <div class="code-title">Python Data Analyse</div>
+                    <div class="code-actions">
+                        <button class="copy-btn" data-code-id="code3">Kopieren</button>
+                    </div>
+                </div>
+                <div class="code-container">
+                    <pre id="code3"><span class="comment"># Einfache Datenanalyse mit Pandas</span>
+<span class="keyword">import</span> <span class="variable">pandas</span> <span class="keyword">as</span> <span class="variable">pd</span>
+<span class="keyword">import</span> <span class="variable">matplotlib.pyplot</span> <span class="keyword">as</span> <span class="variable">plt</span>
+
+<span class="comment"># Daten laden</span>
+<span class="variable">df</span> = <span class="variable">pd</span>.<span class="function">read_csv</span>(<span class="string">'data.csv'</span>)
+
+<span class="comment"># Daten untersuchen</span>
+<span class="function">print</span>(<span class="variable">df</span>.<span class="function">head</span>())
+<span class="function">print</span>(<span class="variable">df</span>.<span class="function">describe</span>())
+
+<span class="comment"># Daten visualisieren</span>
+<span class="variable">plt</span>.<span class="function">figure</span>(<span class="variable">figsize</span>=(<span class="number">10</span>, <span class="number">6</span>))
+<span class="variable">df</span>[<span class="string">'value'</span>].<span class="function">plot</span>(<span class="variable">kind</span>=<span class="string">'hist'</span>, <span class="variable">bins</span>=<span class="number">20</span>)
+<span class="variable">plt</span>.<span class="function">title</span>(<span class="string">'Verteilung der Werte'</span>)
+<span class="variable">plt</span>.<span class="function">xlabel</span>(<span class="string">'Wert'</span>)
+<span class="variable">plt</span>.<span class="function">ylabel</span>(<span class="string">'Häufigkeit'</span>)
+<span class="variable">plt</span>.<span class="function">savefig</span>(<span class="string">'histogram.png'</span>)
+<span class="variable">plt</span>.<span class="function">show</span>()</pre>
+                </div>
+            </div>
+        </section>
+
+        <section class="code-editor" id="add-code">
+            <h2>Füge deinen eigenen Code hinzu</h2>
+            <form id="code-form">
+                <div class="form-group">
+                    <label for="code-title">Titel:</label>
+                    <input type="text" id="code-title" placeholder="Gib einen aussagekräftigen Titel ein" required>
+                </div>
+                <div class="form-group">
+                    <label for="code-content">Code:</label>
+                    <textarea id="code-content" placeholder="Füge deinen Code hier ein..." required></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Code hinzufügen</button>
+            </form>
+        </section>
+    </div>
+
+    <footer>
+        <p>© 2025 Hadis Codingwelt. Alle Rechte vorbehalten.</p>
+        <p>Eine Plattform für Entwickler, um Wissen zu teilen und voneinander zu lernen.</p>
+        <div class="social-links">
+            <a href="#" id="discord-footer">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 127.14 96.36" fill="currentColor">
+                    <path d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83A97.68,97.68,0,0,0,49,6.83,72.37,72.37,0,0,0,45.64,0,105.89,105.89,0,0,0,19.39,8.09C2.79,32.65-1.71,56.6.54,80.21h0A105.73,105.73,0,0,0,32.71,96.36,77.7,77.7,0,0,0,39.6,85.25a68.42,68.42,0,0,1-10.85-5.18c.91-.66,1.8-1.34,2.66-2a75.57,75.57,0,0,0,64.32,0c.87.71,1.76,1.39,2.66,2a68.68,68.68,0,0,1-10.87,5.19,77,77,0,0,0,6.89,11.1A105.25,105.25,0,0,0,126.6,80.22h0C129.24,52.84,122.09,29.11,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53s5-12.74,11.43-12.74S54,46,53.89,53,48.84,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.25,60,73.25,53s5-12.74,11.44-12.74S96.23,46,96.12,53,91.08,65.69,84.69,65.69Z"/>
+                </svg>
+            </a>
+            <a href="#">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+                </svg>
+            </a>
+            <a href="#">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                </svg>
+            </a>
+        </div>
+    </footer>
+
+    <script>
+        // Dark mode toggle
+        const themeToggle = document.getElementById('theme-toggle');
+        const lightIcon = document.getElementById('light-icon');
+        const darkIcon = document.getElementById('dark-icon');
+
+        // Check for saved theme
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+            lightIcon.style.display = 'block';
+            darkIcon.style.display = 'none';
+        } else {
+            lightIcon.style.display = 'none';
+            darkIcon.style.display = 'block';
+        }
+
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            
+            if (document.body.classList.contains('dark-mode')) {
+                localStorage.setItem('theme', 'dark');
+                lightIcon.style.display = 'block';
+                darkIcon.style.display = 'none';
+            } else {
+                localStorage.setItem('theme', 'light');
+                lightIcon.style.display = 'none';
+                darkIcon.style.display = 'block';
+            }
+        });
+
+        // Copy code functionality
+        const copyButtons = document.querySelectorAll('.copy-btn');
+        copyButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const codeId = button.getAttribute('data-code-id');
+                const codeElement = document.getElementById(codeId);
+                const textToCopy = codeElement.textContent;
+                
+                navigator.clipboard.writeText(textToCopy)
+                    .then(() => {
+                        // Show success feedback
+                        const originalText = button.textContent;
+                        button.textContent = 'Kopiert!';
+                        setTimeout(() => {
+                            button.textContent = originalText;
+                        }, 2000);
+                    })
+                    .catch(err => {
+                        console.error('Fehler beim Kopieren des Codes:', err);
+                    });
+            });
+        });
+
+        // Add new code functionality
+        const codeForm = document.getElementById('code-form');
+        codeForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const titleInput = document.getElementById('code-title');
+            const codeInput = document.getElementById('code-content');
+            
+            const title = titleInput.value;
+            const code = codeInput.value;
+            
+            if (title && code) {
+                addNewCodeCard(title, code);
+                titleInput.value = '';
+                codeInput.value = '';
+            }
+        });
+
+        function addNewCodeCard(title, code) {
+            const codeSection = document.querySelector('.code-section');
+            const codeId = 'code' + (document.querySelectorAll('.code-card').length + 1);
+            
+            const codeCard = document.createElement('div');
+            codeCard.className = 'code-card';
+            
+            codeCard.innerHTML = `
+                <div class="code-header">
+                    <div class="code-title">${title}</div>
+                    <div class="code-actions">
+                        <button class="copy-btn" data-code-id="${codeId}">Kopieren</button>
+                    </div>
+                </div>
+                <div class="code-container">
+                    <pre id="${codeId}">${escapeHtml(code)}</pre>
+                </div>
+            `;
+            
+            codeSection.appendChild(codeCard);
+            
+            // Add event listener to the new copy button
+            const newCopyButton = codeCard.querySelector('.copy-btn');
+            newCopyButton.addEventListener('click', () => {
+                const codeElement = document.getElementById(codeId);
+                navigator.clipboard.writeText(codeElement.textContent)
+                    .then(() => {
+                        const originalText = newCopyButton.textContent;
+                        newCopyButton.textContent = 'Kopiert!';
+                        setTimeout(() => {
+                            newCopyButton.textContent = originalText;
+                        }, 2000);
+                    });
+            });
+        }
+
+        function escapeHtml(unsafe) {
+            return unsafe
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        // Setup Discord links - change this to your actual Discord server link
+        const discordLink = "https://discord.gg/C5XyZfyZ";
+        document.getElementById('discord-link').href = discordLink;
+        document.getElementById('discord-footer').href = discordLink;
+    </script>
+</body>
+</html>
